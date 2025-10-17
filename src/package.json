@@ -1,0 +1,40 @@
+{
+  "name": "ufc-elo-engine",
+  "version": "1.0.0",
+  "description": "Typed ELO & scoring engine for fight prediction and analysis",
+  "license": "MIT",
+  "author": "Abhinav Datla",
+  "type": "module",
+  "main": "./dist/cjs/index.cjs",
+  "module": "./dist/esm/index.js",
+  "types": "./dist/esm/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/esm/index.js",
+      "require": "./dist/cjs/index.cjs",
+      "types": "./dist/esm/index.d.ts"
+    }
+  },
+  "files": ["dist", "README.md", "LICENSE"],
+  "engines": { "node": ">=18" },
+  "scripts": {
+    "dev": "tsc -w --project tsconfig.json",
+    "build": "tsc -p tsconfig.build.json && npm run build:cjs",
+    "build:cjs": "node --eval \"require('fs').cpSync('dist/esm','dist/cjs',{recursive:true}); require('glob').globSync('dist/cjs/**/*.js').forEach(p=>require('fs').renameSync(p, p.replace(/\\.js$/, '.cjs')));\"",
+    "lint": "eslint . --ext .ts,.js",
+    "format": "prettier --write .",
+    "test": "vitest run --coverage",
+    "test:watch": "vitest",
+    "release:check": "npm run lint && npm run test && npm run build"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "eslint": "^9.10.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-import": "^2.29.1",
+    "glob": "^11.0.0",
+    "prettier": "^3.3.3",
+    "typescript": "^5.6.3",
+    "vitest": "^2.0.0"
+  }
+}
